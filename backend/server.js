@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const itemRoutes = require('./routes/itemRoutes');
-const userRoutes = require('./routes/userRoutes');
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/db.js';
+import itemRoutes from './routes/itemRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 

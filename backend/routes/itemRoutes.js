@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import itemController from '../controllers/itemController.js';
+
 const router = express.Router();
-const itemController = require('../controllers/itemController');
 
 // Get items for a specific user and mood
 router.get('/', itemController.getItems);
@@ -8,4 +9,4 @@ router.get('/', itemController.getItems);
 // Add a new item
 router.post('/', itemController.addItem);
 
-module.exports = router;
+export default router;

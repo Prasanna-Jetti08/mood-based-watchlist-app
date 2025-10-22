@@ -1,7 +1,7 @@
-const Item = require('../models/itemModel');
+import Item from '../models/itemModel.js';
 
 // Get items for a specific user and mood
-exports.getItems = async (req, res) => {
+const getItems = async (req, res) => {
   const { userId, mood } = req.query;
 
   try {
@@ -13,7 +13,7 @@ exports.getItems = async (req, res) => {
 };
 
 // Add a new item
-exports.addItem = async (req, res) => {
+const addItem = async (req, res) => {
   const { userId, mood, title, type, link } = req.body;
 
   if (!userId || !mood || !title || !type || !link) {
@@ -28,3 +28,5 @@ exports.addItem = async (req, res) => {
     res.status(500).json({ message: 'Error adding item', error });
   }
 };
+
+export default { getItems, addItem };
