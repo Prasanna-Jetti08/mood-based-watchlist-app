@@ -1,57 +1,30 @@
-import Item from "../models/itemModel.js";
+const Item = require('../models/itemModel');
 
-// Add a new item (movie/book)
-export const addItem = async (req, res) => {
-  try {
-    const { userId, type, title, description, moodTags } = req.body;
-    const item = new Item({ userId, type, title, description, moodTags });
-    await item.save();
-    res.json({ success: true, message: "Item added successfully!" });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+// Get items for a specific user and mood
+exports.getItems = async (req, res) => {
+  const { userId, mood } = req.query;
 
-// Get items for a specific mood
-export const getItemsByMood = async (req, res) => {
   try {
-    const { userId, mood } = req.params;
-    const items = await Item.find({ userId, moodTags: mood });
+    const items = await Item.find({ userId, mood });
     res.json(items);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error fetching items', error });
   }
 };
 
-export const markCompleted = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updated = await Item.findByIdAndUpdate(
-      id,
-      { completed: true },
-      { new: true }
-    );
-    if (!updated) return res.status(404).json({ message: "Item not found" });
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// Add a new item
+exports.addItem = async (req, res) => {
+  const { userId, mood, title, type, link } = req.body;
 
-export const getCompletedItems = async (req, res) => {
-  try {
-    const items = await Item.find({ completed: true });
-    res.json(items);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  if (!userId || !mood || !title || !type || !link) {
+    return res.status(400).json({ message: 'All fields are required' });
   }
-};
 
-export const getAllItems = async (req, res) => {
   try {
-    const items = await Item.find({ completed: false });
-    res.json(items);
+    const newItem = new Item({ userId, mood, title, type, link });
+    const savedItem = await newItem.save();
+    res.status(201).json(savedItem);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error adding item', error });
   }
 };
