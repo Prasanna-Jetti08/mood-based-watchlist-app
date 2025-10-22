@@ -1,0 +1,92 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.app nav {
+  background-color: #333;
+  padding: 1rem;
+}
+
+.app nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.app nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.app nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.home-page, .add-item-page {
+  padding: 2rem;
+}
+
+.mood-selector {
+  margin-bottom: 1rem;
+}
+
+.mood-selector select {
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.item-card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.item-card h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.add-item-form input,
+.add-item-form select,
+.add-item-form button {
+  display: block;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.add-item-form button {
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.add-item-form button:hover {
+  background-color: #555;
+}
+
+.added-items ul {
+  list-style: none;
+  padding: 0;
+}
+
+.added-items li {
+  background-color: #fff;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+}
