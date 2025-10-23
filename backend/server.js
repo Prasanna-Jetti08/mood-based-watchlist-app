@@ -10,8 +10,17 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
+  credentials: true
+}));
 app.use(express.json());
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something broke!', error: err.message });
+});
 
 // Routes
 app.use('/api/items', itemRoutes);

@@ -15,17 +15,40 @@ const getItems = async (req, res) => {
 // Add a new item
 const addItem = async (req, res) => {
   const { userId, mood, title, type, link } = req.body;
+  console.log('Received request body:', req.body);
 
-  if (!userId || !mood || !title || !type || !link) {
-    return res.status(400).json({ message: 'All fields are required' });
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+  if (!mood) {
+    return res.status(400).json({ message: 'Mood is required' });
+  }
+  if (!title) {
+    return res.status(400).json({ message: 'Title is required' });
+  }
+  if (!type) {
+    return res.status(400).json({ message: 'Type is required' });
   }
 
   try {
-    const newItem = new Item({ userId, mood, title, type, link });
+    const newItem = new Item({ 
+      userId, 
+      mood, 
+      title, 
+      type, 
+      link: link || 'https://google.com'
+    });
+    console.log('Creating new item:', newItem);
     const savedItem = await newItem.save();
+    console.log('Item saved successfully:', savedItem);
     res.status(201).json(savedItem);
   } catch (error) {
-    res.status(500).json({ message: 'Error adding item', error });
+    console.error('Error saving item:', error);
+    res.status(500).json({ 
+      message: 'Error adding item', 
+      error: error.message,
+      details: error.errors 
+    });
   }
 };
 
