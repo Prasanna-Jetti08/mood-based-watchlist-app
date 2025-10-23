@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/items/';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api/items/';
 
 // Get all items for a specific mood and user
 export const getItems = async (userId, mood) => {
