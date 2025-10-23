@@ -5,6 +5,7 @@ import AddItemPage from './pages/AddItemPage.js';
 import './App.css';
 
 function App() {
+  // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState('12345'); // Replace with actual user authentication logic
 
   return (

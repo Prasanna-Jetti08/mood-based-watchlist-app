@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MoodSelector from '../components/MoodSelector.js';
 import ItemCard from '../components/ItemCard.js';
 import { getItems } from '../api/itemApi.js';
@@ -7,20 +7,20 @@ const HomePage = ({ userId }) => {
   const [mood, setMood] = useState('');
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    if (mood) {
-      fetchItems();
-    }
-  }, [mood]);
-
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       const data = await getItems(userId, mood);
       setItems(data);
     } catch (error) {
       console.error('Error fetching items:', error);
     }
-  };
+  }, [userId, mood]);
+
+  useEffect(() => {
+    if (mood) {
+      fetchItems();
+    }
+  }, [mood, fetchItems]);
 
   return (
     <div className="home-page">
