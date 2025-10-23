@@ -92,11 +92,14 @@ const AddItemForm = ({ userId, mood, onItemAdded }) => {
         </div>
         <div>
           <input
-            type="url"
-            placeholder="Link (optional - defaults to google.com)"
+            type="text"
+            placeholder="Link (e.g., www.imdb.com/... or https://...)"
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
+          <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>
+            You can enter URLs starting with www. or https:// - we'll handle it automatically
+          </small>
         </div>
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Adding...' : 'Add Item'}

@@ -12,9 +12,12 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:5000'],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
-app.use(express.json());
+app.use(express.json({
+  limit: '10mb' // Increase payload size limit
+}));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

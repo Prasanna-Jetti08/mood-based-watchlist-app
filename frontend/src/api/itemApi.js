@@ -16,10 +16,43 @@ export const getItems = async (userId, mood) => {
 // Add a new item
 export const addItem = async (itemData) => {
   try {
-    const response = await axios.post(API_URL, itemData);
+    // Format and validate URL
+    if (itemData.link) {
+      let link = itemData.link.trim();
+      
+      // Add https:// if the URL starts with www.
+      if (link.startsWith('www.')) {
+        link = 'https://' + link;
+      }
+      
+      // Add https:// if there's no protocol
+      if (!link.startsWith('http://') && !link.startsWith('https://')) {
+        link = 'https://' + link;
+      }
+
+      try {
+        new URL(link);
+        itemData.link = link; // Update the link with the formatted version
+      } catch (e) {
+        throw new Error('Please enter a valid URL');
+      }
+    }
+
+    const response = await axios.post(API_URL, itemData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      timeout: 10000 // 10 second timeout
+    });
     return response.data;
   } catch (error) {
     console.error('Error adding item:', error);
+    if (error.code === 'ECONNABORTED') {
+      throw new Error('Request timed out. Please try again.');
+    }
+    if (!error.response) {
+      throw new Error('Network error. Please check if the server is running.');
+    }
     throw error;
   }
 };
