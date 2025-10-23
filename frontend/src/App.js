@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomePage from './pages/HomePage.js';
 import AddItemPage from './pages/AddItemPage.js';
+import './App.css';
 
 function App() {
   const [userId, setUserId] = useState('12345'); // Replace with actual user authentication logic

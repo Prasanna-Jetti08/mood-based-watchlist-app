@@ -25,6 +25,7 @@ const HomePage = ({ userId }) => {
   return (
     <div className="home-page">
       <h1>Welcome to your Watchlist</h1>
+      <br></br>
       <MoodSelector onSelectMood={setMood} />
       {mood && (
         <div className="items-list">
