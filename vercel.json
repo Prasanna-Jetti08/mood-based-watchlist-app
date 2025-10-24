@@ -15,6 +15,16 @@
   ],
   "routes": [
     {
+      "src": "/api/items",
+      "methods": ["GET", "POST", "OPTIONS"],
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/api/users",
+      "methods": ["GET", "POST", "OPTIONS"],
+      "dest": "/backend/server.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/backend/server.js"
     },
@@ -23,12 +33,7 @@
       "dest": "/frontend/build/static/$1"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/frontend/build/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/frontend/build/manifest.json"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",

@@ -15,14 +15,32 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
+
+// Debug middleware
+app.use((req, res, next) => {
+  console.log('Incoming request:', {
+    method: req.method,
+    path: req.path,
+    body: req.body,
+    headers: req.headers
+  });
+  next();
+});
+
 app.use(express.json({
   limit: '10mb' // Increase payload size limit
 }));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something broke!', error: err.message });
+  console.error('Error:', err);
+  console.error('Stack:', err.stack);
+  res.status(500).json({ 
+    message: 'Something broke!', 
+    error: err.message,
+    path: req.path,
+    method: req.method
+  });
 });
 
 // Health check endpoint
@@ -34,11 +52,20 @@ app.get('/api', (req, res) => {
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 
-// Handle 404 for API routes
-app.all('/api/*', (req, res) => {
+// Handle errors
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal Server Error',
+    error: process.env.NODE_ENV === 'development' ? err : {}
+  });
+});
+
+// Handle 404 routes - catch all unmatched routes
+app.use((req, res) => {
   console.log(`404 for ${req.method} ${req.url}`);
   res.status(404).json({ 
-    message: 'API endpoint not found',
+    message: 'Endpoint not found',
     requestedUrl: req.url,
     method: req.method 
   });
