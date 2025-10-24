@@ -1,12 +1,20 @@
 [build]
-  base = "frontend"
+  command = "cd frontend && npm install && npm run build && cd ../backend && npm install"
   publish = "frontend/build"
-  command = "cd frontend && npm install && npm run build"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/:splat"
+  status = 200
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  
+[functions]
+  directory = "backend"
+  node_bundler = "esbuild"
 
 [build.environment]
   CI = "false"
