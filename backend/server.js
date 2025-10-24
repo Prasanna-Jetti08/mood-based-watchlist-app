@@ -11,7 +11,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: '*', // Allow all origins in production
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
@@ -29,19 +29,9 @@ app.use((err, req, res, next) => {
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 
-// Root route for API health check
-app.get('/api', (req, res) => {
-  res.json({ message: 'Watchlist API is running' });
-});
-
-// Catch-all route for API
-app.all('/api/*', (req, res) => {
-  console.log(`404 for ${req.method} ${req.url}`);
-  res.status(404).json({ 
-    message: 'API endpoint not found',
-    requestedUrl: req.url,
-    method: req.method 
-  });
+// Root route
+app.get('/', (req, res) => {
+  res.send('Watchlist API is running');
 });
 
 const PORT = process.env.PORT || 5000;
