@@ -1,11 +1,10 @@
 import axios from 'axios';
-
-const API_URL = '/api/items';
+import { ENDPOINTS, getApiConfig } from './config';
 
 // Get all items for a specific mood and user
 export const getItems = async (userId, mood) => {
   try {
-    const response = await axios.get(`${API_URL}?userId=${userId}&mood=${mood}`);
+    const response = await axios.get(`${ENDPOINTS.ITEMS}?userId=${userId}&mood=${mood}`, getApiConfig());
     return response.data;
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -38,12 +37,7 @@ export const addItem = async (itemData) => {
       }
     }
 
-    const response = await axios.post(API_URL, itemData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      timeout: 10000 // 10 second timeout
-    });
+    const response = await axios.post(ENDPOINTS.ITEMS, itemData, getApiConfig());
     return response.data;
   } catch (error) {
     console.error('Error adding item:', error);
