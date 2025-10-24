@@ -25,13 +25,23 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something broke!', error: err.message });
 });
 
+// Health check endpoint
+app.get('/api', (req, res) => {
+  res.json({ status: 'ok', message: 'API is running' });
+});
+
 // Routes
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 
-// Root route
-app.get('/', (req, res) => {
-  res.send('Watchlist API is running');
+// Handle 404 for API routes
+app.all('/api/*', (req, res) => {
+  console.log(`404 for ${req.method} ${req.url}`);
+  res.status(404).json({ 
+    message: 'API endpoint not found',
+    requestedUrl: req.url,
+    method: req.method 
+  });
 });
 
 const PORT = process.env.PORT || 5000;
