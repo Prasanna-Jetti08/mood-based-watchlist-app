@@ -6,9 +6,11 @@ const ItemCard = ({ item }) => {
       <h3>{item.title}</h3>
       <p>Type: {item.type}</p>
       <p>Mood: {item.mood}</p>
-      <a href={item.link} target="_blank" rel="noopener noreferrer">
-        View
-      </a>
+      {item.comments && (
+        <p className="comments">
+          <strong>Comments:</strong> {item.comments}
+        </p>
+      )}
     </div>
   );
 };

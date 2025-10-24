@@ -5,7 +5,7 @@ const itemSchema = new mongoose.Schema({
   mood: { type: String, required: true },
   title: { type: String, required: true },
   type: { type: String, enum: ['Movie', 'Book'], required: true },
-  link: { type: String, required: true },
+  comments: { type: String, required: false },
 }, { timestamps: true });
 
 const Item = mongoose.model('Item', itemSchema);

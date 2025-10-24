@@ -14,7 +14,7 @@ const getItems = async (req, res) => {
 
 // Add a new item
 const addItem = async (req, res) => {
-  const { userId, mood, title, type, link } = req.body;
+  const { userId, mood, title, type, comments } = req.body;
   console.log('Received request body:', req.body);
 
   if (!userId) {
@@ -36,7 +36,7 @@ const addItem = async (req, res) => {
       mood, 
       title, 
       type, 
-      link: link || 'https://google.com'
+      comments
     });
     console.log('Creating new item:', newItem);
     const savedItem = await newItem.save();

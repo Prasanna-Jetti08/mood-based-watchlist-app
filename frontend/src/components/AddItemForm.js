@@ -4,7 +4,7 @@ import { addItem } from '../api/itemApi.js';
 const AddItemForm = ({ userId, mood, onItemAdded }) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('Movie');
-  const [link, setLink] = useState('');
+  const [comments, setComments] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +30,7 @@ const AddItemForm = ({ userId, mood, onItemAdded }) => {
       mood, 
       title, 
       type, 
-      link: link || 'https://google.com'
+      comments
     };
     
     console.log('Attempting to add item:', newItem);
@@ -43,7 +43,7 @@ const AddItemForm = ({ userId, mood, onItemAdded }) => {
       if (savedItem) {
         onItemAdded(savedItem);
         setTitle('');
-        setLink('');
+        setComments('');
         setSuccess(`${type} "${title}" has been successfully added!`);
       } else {
         throw new Error('No response from server');
@@ -91,23 +91,18 @@ const AddItemForm = ({ userId, mood, onItemAdded }) => {
           </select>
         </div>
         <div>
-          <input
-            type="text"
-            placeholder="Link (e.g., www.imdb.com/... or https://...)"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
+          <textarea
+            placeholder="Comments (optional)"
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+            rows="3"
+            style={{ width: '100%', marginBottom: '10px', padding: '8px' }}
           />
-          <small style={{ color: '#666', display: 'block', marginTop: '5px' }}>
-            You can enter URLs starting with www. or https:// - we'll handle it automatically
-          </small>
         </div>
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Adding...' : 'Add Item'}
         </button>
       </form>
-      <div style={{ marginTop: '20px', fontSize: '0.9em', color: '#666' }}>
-        Note: If no link is provided, it will default to https://google.com
-      </div>
     </div>
   );
 };
