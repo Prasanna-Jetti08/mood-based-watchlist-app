@@ -3,7 +3,6 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import itemRoutes from './routes/itemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import serverless from 'serverless-http';
 
 const app = express();
 
@@ -32,19 +31,30 @@ app.use(express.json({
   limit: '10mb' // Increase payload size limit
 }));
 
-// Health check endpoint
-app.get('/', (req, res) => {
-  res.json({ status: 'ok', message: 'API is running' });
-});
-
-// Routes - remove /api prefix since it's handled by Netlify redirects
-app.use('/items', itemRoutes);
-app.use('/users', userRoutes);
-
-// Handle errors
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error:', err);
   console.error('Stack:', err.stack);
+  res.status(500).json({ 
+    message: 'Something broke!', 
+    error: err.message,
+    path: req.path,
+    method: req.method
+  });
+});
+
+// Health check endpoint
+app.get('/api', (req, res) => {
+  res.json({ status: 'ok', message: 'API is running' });
+});
+
+// Routes
+app.use('/api/items', itemRoutes);
+app.use('/api/users', userRoutes);
+
+// Handle errors
+app.use((err, req, res, next) => {
+  console.error(err);
   res.status(err.status || 500).json({
     message: err.message || 'Internal Server Error',
     error: process.env.NODE_ENV === 'development' ? err : {}
@@ -61,5 +71,5 @@ app.use((req, res) => {
   });
 });
 
-// Export the serverless function for Netlify
-export const handler = serverless(app);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

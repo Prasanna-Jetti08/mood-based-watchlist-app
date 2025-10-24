@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ENDPOINTS, getApiConfig } from './config.js';
+import { ENDPOINTS, getApiConfig } from './config';
 
 // Get all items for a specific mood and user
 export const getItems = async (userId, mood) => {

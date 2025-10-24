@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ENDPOINTS, getApiConfig } from './config.js';
+import { ENDPOINTS, getApiConfig } from './config';
 
 // Register a new user
 export const registerUser = async (userData) => {
