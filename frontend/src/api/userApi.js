@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { ENDPOINTS, getApiConfig } from './config';
+
+const API_URL = '/api/users/';
 
 // Register a new user
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${ENDPOINTS.USERS}/register`, userData, getApiConfig());
+    const response = await axios.post(`${API_URL}register`, userData);
     return response.data;
   } catch (error) {
     console.error('Error registering user:', error);
@@ -15,7 +16,7 @@ export const registerUser = async (userData) => {
 // Login user
 export const loginUser = async (credentials) => {
   try {
-    const response = await axios.post(`${ENDPOINTS.USERS}/login`, credentials, getApiConfig());
+    const response = await axios.post(`${API_URL}login`, credentials);
     return response.data;
   } catch (error) {
     console.error('Error logging in:', error);
